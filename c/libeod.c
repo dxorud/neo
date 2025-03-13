@@ -11,9 +11,9 @@ void main() {
             break;
         } else { 
             if (checkeod(n) == 0) 
-                printf("%d is even number~!\n", n);
+                printf("%d is even number~!!\n", n);
             else 
-                printf("%d is even number~!\n", n);
+                printf("%d is even number~!!\n", n);
         
         }
     }
