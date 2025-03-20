@@ -1,14 +1,41 @@
-CREATE TABLE buy1tbl (
-	idnum number(8) NOT NULL,
-	userid char(8) NOT NULL,
-	prodname nchar(8) NOT NULL,
-	groupname nchar(4),
-	price number(8) NOT NULL,
-	amount number(3) NOT NULL,
-	usertbl_userid char(8) NOT null
+CREATE TABLE shop.buytbl (
+    idnum NUMBER(8) NOT NULL PRIMARY KEY,
+    userid CHAR(8) NOT NULL,
+    prodname NCHAR(8) NOT NULL,
+    groupname NCHAR(4),
+    price NUMBER(8) NOT NULL,
+    amount NUMBER(3) NOT NULL,
+    FOREIGN KEY(userid) REFERENCES shop.usertbl(userid)
 );
 
-ALTER TABLE BUY1TBL ADD CONSTRAINT buy1tbl_pk PRIMARY KEY (idnum);
+DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_count
+    FROM user_sequences
+    WHERE sequence_name = 'IDSEQ';
 
-ALTER TABLE BUY1TBL ADD CONSTRAINT buy1tbl_user1tbl_fk FOREIGN KEY (usertbl_userid)
-REFERENCES user1tbl(userid);
+    IF v_count > 0 THEN
+        EXECUTE IMMEDIATE 'DROP SEQUENCE IDSEQ';
+    END IF;
+END;
+/
+
+CREATE SEQUENCE IDSEQ
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'KBS', '운동화', NULL, 30, 2);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'KBS', '노트', '전자', 1000, 1);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'JYP', '모니터', '전자', 200, 1);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'BBK', '모니터', '전자', 200, 5);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'KBS', '청바지', '의류', 50, 3);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'BBK', '메모리', '전자', 80, 10);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'SSK', '책', '서적', 15, 5);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'EJW', '책', '서적', 15, 2);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'EJW', '청바지', '의류', 50, 1);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'BBK', '운동화', NULL, 30, 2);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'EJW', '책', '서적', 15, 1);
+INSERT INTO shop.buytbl VALUES (IDSEQ.NEXTVAL, 'BBK', '운동화', NULL, 30, 2);
