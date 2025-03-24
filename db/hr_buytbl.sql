@@ -8,6 +8,7 @@ CREATE TABLE hr.buytbl (
     FOREIGN KEY(userid) REFERENCES hr.usertbl(userid)
 );
 
+
 DECLARE
     v_count NUMBER;
 BEGIN
