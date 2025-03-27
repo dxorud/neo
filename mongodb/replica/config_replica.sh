@@ -29,3 +29,5 @@ sleep 3s
 
 # Replica Init Setup
 /replica/mongodb/bin/mongo --port 10000 < rs_start
+
+
