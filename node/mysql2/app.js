@@ -6,6 +6,7 @@ var app = express();
 var connection = mysql.createConnection({
     host: process.env.host,
     user: process.env.user,
+    port: process.env.port,
     password: process.env.password,
     database: process.env.database
 });
@@ -25,11 +26,11 @@ app.get('/', function (req, res) {
             res.send(rews);
             console.log("The solution is : ", rows);
         } else {
-            console.log("Error while performing Query~!!\n\n", rows);
+            console.log("Error while performing Query~!!\n", rows);
         }
     })
 })
 
 app.listen(8000, function () {
-    console.log("8000 Port : Server Started~!!\n\n");
+    console.log("8000 Port : Server Started~!!\n");
 })
