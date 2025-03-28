@@ -25,41 +25,7 @@ app.get('/Hello', function (req, res) {
 app.get('/select', function (req, res) {
     let result = connection.query('select * from st_info');
     console.log(result);
-    //res.send(result);
-    res.writeHead(200);
-    var template = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Sync-MySQL Example</title>
-    </head>
-    <body>
-    <table border="1" margin:auto; text-align:center;>
-        <tr>
-            <th>ST_ID</th>
-            <th>NAME</th>
-            <th>DEPT</th>
-        </tr>
-        `;
-        for (var i=0; i<result.length; i++) {
-        template += `
-        <tr>
-            <th>${result[i]['ST_ID']}</th>
-            <th>${result[i]['NAME']}</th>
-            <th>${result[i]['DEPT']}</th>
-            <th></th>
-            <th></th>
-        </tr>
-        `;
-    }
-    template += `
-    </table>
-    </body>
-    </html>
-    `;
-    res.end(template);
-
+    res.send(result);
 })
 
 // insert data to st_info table
