@@ -20,7 +20,7 @@ connection.connect(function (err) {
 });
 
 app.get('/', function (req, res) {
-    connecttion.query('SELECT * FROM st_info', function (err, rows, fields) {
+    connecttion.query('select * from st_info', function (err, rows, fields) {
         connection.end();
         if (err) {
             res.send(rews);
