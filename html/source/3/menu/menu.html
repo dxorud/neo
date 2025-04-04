@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>오저모(오늘 저녁 뭐)?</title>
+        <style>
+            body {background-color: #fff8dc;}
+            h1 {color: #ff4500;}
+            fieldset {border: 2px solid #ff6347; background-color: #ffebcd;}
+            legend {color: black; font-weight: bold;}
+            hr {border: 1px solid #e47c6a; }
+            label {color: black;}
+            select, input[type="text"] {background-color: #f0f8ff; border: 1px solid #4682b4;}
+            input[type="submit"] {background-color: #ff4500; color: white;border: none; padding: 8px 12px; font-weight: bold;}
+            input[type="reset"] {background-color: #4682b4; color: white; border: none; padding: 8px 12px; font-weight: bold;}
+        </style>
+    </head>
+    <body>
+        <h1>?오저모?</h1>
+        <hr>
+        <form>
+            <fieldset>
+                <legend>오늘의 저녁 메뉴는?</legend>
+                    date: <input type="date" value="2025-04-01">  time : <input type="time" value="21:30"><br>
+                <hr />
+                <input type="radio" name="menu" value=1>
+                <label>한 식</label>
+                <select name="korea">
+                    <option value="1" selected>김치찌개</option>
+                    <option value="2">된장찌개</option>
+                    <option value="3">비빔밥</option>
+                </select><p />
+                <input type="radio" name="menu" value=2>
+                <label>중 식</label>
+                <select name="china">
+                    <option value="1" selected>짜장면</option>
+                    <option value="2">짬뽕</option>
+                    <option value="3">탕수육</option>
+                </select><p />
+                <input type="radio" name="menu" value=3>
+                <label>양 식</label>
+                <select name="western">
+                    <option value="1" selected>스테이크</option>
+                    <option value="2">뇨끼</option>
+                    <option value="3">파스타</option>
+                </select><p />
+                <input type="radio" name="menu" value=4>
+                <label>기 타</label>
+                <input type="text" size="10" name="m_name">
+                <hr />
+                &nbsp;&nbsp;<input type="submit" value="전송">&nbsp;&nbsp;
+                <input type="reset" value="취소"><p />
+            </fieldset>
+        </form>    
+    </body>
+</html>
