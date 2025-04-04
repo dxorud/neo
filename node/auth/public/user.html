@@ -30,8 +30,8 @@
                 sessionStorage.removeItem("");
                 location.href = "index.html";
             } else {
-                for (var i = 0; i < sessionStorage.key.length; i++) {
-                    if (id == sessionStorage.key(i)) {
+            for (var i = 0; i < sessionStorage.key.length; i++) {
+                if (id == sessionStorage.key(i)) {
                     sessionStorage.setItem(id, now);
                     return;
                 }

@@ -13,9 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 var connection = new mysql({
     host: process.env.host,
     user: process.env.user,
+    port: process.env.port,
     password: process.env.password,
     database: process.env.database
-}); 
+});
 
 function template_nodata(res) {
     res.writeHead(200);
@@ -23,8 +24,8 @@ function template_nodata(res) {
         <!DOCTYPE html>
         <html>
         <head>
+            <title>No Data</title>
             <meta charset="UTF-8">
-            <title>Error</title>
             <link type="text/css" rel="stylesheet" href="mystyle.css" />
         </head>
         <body>
@@ -41,8 +42,8 @@ function template_result(result, res) {
         <!DOCTYPE html>
         <html>
         <head>
-            <meta charset="UTF-8">
             <title>No Data</title>
+            <meta charset="UTF-8">
             <link type="text/css" rel="stylesheet" href="mystyle.css" />
         </head>
         <body>
@@ -52,15 +53,15 @@ function template_result(result, res) {
             </thead>
             <tbody>
                 `;
-            for (var i = 0; i< result.length; i++) {
-                template+=`
-                    <tr>
-                        <td>${result[i]['userid']}</td>
-                        <td>${result[i]['passwd']}</td>
-                    </tr>
-                `;
-            }
-        template += `
+        for (var i=0; i<result.length; i++) {
+            template+=`
+                <tr>
+                    <td>${result[i]['userid']}</td>
+                    <td>${result[i]['passwd']}</td>
+                </tr>
+            `;
+        }
+    template += `
             </tbody>
             </table>
         </body>
@@ -73,22 +74,22 @@ app.get('/Hello', (req, res) => {
     res.send('Hello World!!')
 })
 
-
 // login
 app.post('/login', (req, res) => {
     const { id, pw } = req.body;
-    const result = connection.query('select * from user where userid = ? and passwd = ?', [id, pw]);
-    if (result.length== 0) {
-        res.redirect('error.html')
+    const result = connection.query('select * from user where userid=? and passwd=?', [id, pw]);
+    // console.log(result);
+    if (result.length == 0) {
+        res.redirect('error.html');
     }
     if (id == 'admin' || id == 'root') {
-        console.log(id + " => Administrator Logined")
-        res.redirect('member.html?id=' + id)
+        console.log(id + ' => Administrator Logined');
+        res.redirect('member.html?id=' + id);
     } else {
-        console.log(id + " => User Logined")
-        res.redirect('user.html?id=' + id)
+        console.log(id + ' => User Logined');
+        res.redirect('user.html?id=' + id);
     }
-})
+    });
 
 // register
 app.post('/register', (req, res) => {
@@ -110,7 +111,7 @@ app.post('/register', (req, res) => {
                     <div>
                     <h4 style="margin-left:30px">이미 존재하는 아이디 입니다.</h4>
                     <a href="register.html" style="margin-left:30px">다시 시도하기</a>
-			</div>
+                    </div>
                 </body>
                 </html>
             `;
@@ -122,7 +123,6 @@ app.post('/register', (req, res) => {
         }
     }
 })
-
 
 app.get('/select', (req, res) => {
     const result = connection.query('select * from user');
@@ -137,14 +137,19 @@ app.get('/select', (req, res) => {
 
 app.get('/selectQuery', (req, res) => {
     const id = req.query.id;
-    const result = connection.query('select * from user where userid = ?', [id]);
+    const result = connection.query('select * from user where userid = ?', [id]);   
     console.log(result);
-    res.send(result);
+    // res.send(result);
+    if (result.length == 0) {
+        template_nodata(res);
+    } else {
+        template_result(result, res);
+    }
 })
 
-app.post('/insert', (req, res) => {
+app.post('/insert', (req, res) => { 
     const { id, pw } = req.body;
-    const result = connection.query('insert into user values (?, ?)', [id, pw]);
+    const result = connection.query('insert into user values(?, ?)', [id, pw]);
     console.log(result);
     res.redirect('/selectQuery?id=' + req.body.id);
 })
@@ -152,12 +157,12 @@ app.post('/insert', (req, res) => {
 app.post('/update', (req, res) => {
     const { id, pw } = req.body;
     const result = connection.query('update user set passwd = ? where userid = ?', [pw, id]);
-    console.log(result);    
+    console.log(result);
     res.redirect('/selectQuery?id=' + req.body.id);
 })
 
 app.post('/delete', (req, res) => {
-    const { id } = req.body;
+    const id = req.body.id;
     const result = connection.query('delete from user where userid = ?', [id]);
     console.log(result);
     res.redirect('/select');
