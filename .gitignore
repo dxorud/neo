@@ -1,9 +1,9 @@
-## .env
+# .env
 .env
 
 ## c program
 c/*
-c/*.o
+c/makefile/test
 !c/**/*.c
 !c/**/*.h
 !c/**/*.a
@@ -16,22 +16,22 @@ c/*.o
 scala/**/project
 scala/**/target
 
-## Maven
+##Maven
 maven/**/target
 
 ## nodejs
 node/**/node_modules
 node/**/package-lock.json
 
+## python
+python/**/.idea
+python/**/.venv
+python /**/__pycache__/
 
 ## python
-python/**/.venv
-python/**/__pycache__/
-
-## mongodb
 mongodb/backup
 
-## oracle
+##oracle
 oracle/node/dbConfig.js
 oracle/**/node_modules
 oracle/**/package-lock.json
