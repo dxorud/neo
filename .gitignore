@@ -24,9 +24,10 @@ node/**/node_modules
 node/**/package-lock.json
 
 ## python
-python/**/.idea
+.idea
 python/**/.venv
 python /**/__pycache__/
+**/secret.json
 
 ## python
 mongodb/backup
