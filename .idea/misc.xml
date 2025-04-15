@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (neo)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (neo) (2)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.12.3 (sftp://root@192.168.1.44:22/root/.virtualenvs/neo/bin/python)" project-jdk-type="Python SDK" />
 </project>
