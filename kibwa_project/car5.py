@@ -1,53 +1,43 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 한글 폰트 설정
+file_path = '202012202412전기차등록현황.csv'
+
+# CSV 파일 읽기
+df = pd.read_csv(file_path, encoding='utf-8', header=0)
 plt.rcParams['font.family'] = 'NanumBarunGothic'
 
-# CSV 불러오기
-file_path = '202012202412전기차등록현황.csv'
-df = pd.read_csv(file_path, encoding='utf-8-sig')
+# 열 이름, '년월' 컬럼 공백 제거
+df.columns = df.columns.str.strip()
+df['년월'] = df['년월'].astype(str).str.strip()
 
-# 첫 번째 열 이름 변경
-df.rename(columns={df.columns[0]: '년월'}, inplace=True)
+# 필터링할 년월 리스트
+target_dates = ['2020-12', '2021-12', '2022-12', '2023-12', '2024-07']
+filtered = df[df['년월'].isin(target_dates)]
 
-# '년월'을 문자열로 변환
-df['년월'] = df['년월'].astype(str)
+# '합계' 컬럼 제거하고, 년월을 인덱스로 설정
+filtered = filtered.drop(columns=['합계'])
+filtered = filtered.set_index('년월')
 
-# 사용할 연도 리스트 (실제 존재하는 12월)
-target_months = ['2020-12', '2021-12', '2022-12', '2023-12', '2024-07']
+# 행/열 전치해서 지역 기준으로 변환
+region_data = filtered.T
+region_data.index.name = '지역'
 
-# 해당 연도만 필터링
-df_filtered = df[df['년월'].isin(target_months)]
+# 시각화
+plt.figure(figsize=(14, 7))
 
-# '년월'을 인덱스로 설정
-df_filtered.set_index('년월', inplace=True)
+for date in target_dates:
+    plt.plot(region_data.index, region_data[date], marker='o', label=date)
 
-# 행과 열을 전치해서 지역이 행, 연도가 열이 되게 함
-df_transposed = df_filtered.T
-
-# 그래프 설정
-plt.figure(figsize=(14, 8))
-
-# 컬러 리스트 (필요에 따라 더 추가 가능)
-colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', '#FF6347', '#8A2BE2', '#3CB371',
-        '#FFD700', '#00CED1', '#DC143C', '#9932CC', '#FF4500', '#556B2F', '#1E90FF']
-
-# 지역별 그래프 그리기
-for i, region in enumerate(df_transposed.index):
-    plt.plot(df_transposed.columns, df_transposed.loc[region],
-            label=region, color=colors[i % len(colors)], marker='o')
-
-plt.title('지역별 전기차 등록 변화 (12월 기준)', fontsize=16)
-plt.xlabel('연도', fontsize=14)
-plt.ylabel('등록 대수', fontsize=14)
-plt.legend(title='지역', bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.grid(True)
+plt.title('연도별 전기차 등록 대수 (지역별)', fontsize=15)
+plt.xlabel('지역', fontsize=12)
+plt.ylabel('전기차 등록 대수', fontsize=12)
+plt.xticks(rotation=45)
+plt.legend(title='년월')
+plt.grid(axis='y', linestyle='--', alpha=0.4)
 plt.tight_layout()
 
-# 저장 및 출력
 filename = 'car5.png'
 plt.savefig(filename, dpi=400, bbox_inches='tight')
-print(filename + ' 저장 완료')
-
+print(filename + ' saved')
 plt.show()
