@@ -8,7 +8,7 @@ app = FastAPI()
     path='/', description='HelthCheck용 포인트 입니다.',
     status_code=status.HTTP_200_OK,
     response_class=PlainTextResponse,
-    responses={200: {"description": "Helth check 응답"}}
+    responses={200: {"description": "Health check 응답"}}
 )
 async def HealthCheck():
     return "{status: 'ok'}"
