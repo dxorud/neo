@@ -79,8 +79,6 @@ async def register_res_user(req: ResponseUserDto):
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=3000)
     
-
-
 import uvicorn
 from fastapi import FastAPI, status
 from fastapi.responses import PlainTextResponse

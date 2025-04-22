@@ -26,16 +26,22 @@ def get_forecast(
     sido: str = Query(..., description="시도명 예: 서울특별시"),
     sigungu: str = Query(..., description="시군구명 예: 강남구")
 ):
-    region = f"{sido.strip()} {sigungu.strip()}"
-    doc = collection.find_one({"region": region}, {"_id": 0})
+    
+    s = sido.strip()
+    g = sigungu.strip()
+
+    doc = collection.find_one(
+        {"sido": s, "sigungu": g},
+        {"_id": 0}
+    )
 
     if not doc:
-        raise HTTPException(status_code=404, detail=f"{region} 데이터가 없습니다.")
+        raise HTTPException(
+            status_code=404,
+            detail=f"{sido} {sigungu} 데이터가 없습니다."
+        )
 
-    return {
-        "region": doc["region"],
-        "forecast": {k: v for k, v in doc.items() if k != "region"}
-    }
+    return doc
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=3000, reload=True)
