@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultBox = document.querySelector(".result-box");
     const button = document.querySelector(".submit-btn");
   
-    // 시군구 목록 동적 로딩
+    // 시도 선택 시 자치구 옵션 설정
     sidoSelect.addEventListener("change", () => {
       const selectedSido = sidoSelect.value;
       sigunguSelect.innerHTML = "";
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   
-    // 예측 버튼 클릭 이벤트
+    // 예측 버튼 클릭 시 fetch 요청
     button.addEventListener("click", async () => {
       const sido = sidoSelect.value;
       const sigungu = sigunguSelect.value;
@@ -47,15 +47,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) throw new Error(`${response.status} 오류`);
   
         const data = await response.json();
+        console.log("[응답 데이터]", data); // 디버깅용
+  
+        // sido, sigungu 키 존재 여부 확인
+        if (!data.sido || !data.sigungu) {
+          resultBox.innerHTML = `<p class="notfound">예측 데이터를 찾을 수 없습니다.</p>`;
+          return;
+        }
+  
         const { sido: _sido, sigungu: _sigungu, ...years } = data;
   
         let html = `<h3>${_sido} ${_sigungu} 등록대수 예측</h3>`;
         html += `<table class="result-table"><thead><tr><th>연도</th><th>등록대수</th></tr></thead><tbody>`;
-        Object.entries(years).forEach(([year, value]) => {
-          html += `<tr><td>${year}</td><td>${parseFloat(value).toLocaleString()} 대</td></tr>`;
-        });
-        html += `</tbody></table>`;
   
+        // 연도 순 정렬
+        Object.entries(years)
+          .sort(([a], [b]) => a - b)
+          .forEach(([year, value]) => {
+            html += `<tr><td>${year}</td><td>${parseFloat(value).toLocaleString()} 대</td></tr>`;
+          });
+  
+        html += `</tbody></table>`;
         resultBox.innerHTML = html;
   
       } catch (err) {
