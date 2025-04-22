@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전기차 구매 시기 예측</title>
+  <link rel="stylesheet" href="service.css">
+</head>
+<body>
+  <section class="container">
+    <h1 class="title">전기차 구매 적합 시기 예측</h1>
+    <p class="subtitle">지역을 선택하면 전기차 구매 적정 시기를 안내해 드립니다.</p>
+
+    <form class="form">
+      <div class="form-group">
+        <label for="sido">시도 선택</label>
+        <select id="sido" name="sido">
+          <option value="">-- 시도 선택 --</option>
+          <option value="서울특별시">서울특별시</option>
+          <option value="부산광역시">부산광역시</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="sigungu">자치구 선택</label>
+        <select id="sigungu" name="sigungu" disabled>
+          <option value="">-- 먼저 시도를 선택하세요 --</option>
+        </select>
+      </div>
+
+      <button type="button" class="submit-btn">예측하기</button>
+    </form>
+
+    <div class="result-box">
+      <p class="placeholder-text">예측 결과가 여기에 표시됩니다.</p>
+    </div>
+  </section>
+
+  <script>
+    const sigunguBySido = {
+      "서울특별시": ["강남구", "송파구", "용산구", "강서구", "노원구"],
+      "부산광역시": ["해운대구", "부산진구", "동래구", "남구"]
+    };
+
+    const sidoSelect = document.getElementById("sido");
+    const sigunguSelect = document.getElementById("sigungu");
+
+    sidoSelect.addEventListener("change", function () {
+      const selectedSido = this.value;
+      sigunguSelect.innerHTML = "";
+
+      if (sigunguBySido[selectedSido]) {
+        sigunguSelect.disabled = false;
+        sigunguBySido[selectedSido].forEach(gugun => {
+          const option = document.createElement("option");
+          option.value = gugun;
+          option.textContent = gugun;
+          sigunguSelect.appendChild(option);
+        });
+      } else {
+        sigunguSelect.disabled = true;
+        const defaultOption = document.createElement("option");
+        defaultOption.textContent = "-- 먼저 시도를 선택하세요 --";
+        sigunguSelect.appendChild(defaultOption);
+      }
+    });
+  </script>
+</body>
+</html>

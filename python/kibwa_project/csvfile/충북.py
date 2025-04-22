@@ -1,5 +1,6 @@
 import pandas as pd
-from pymongo import MongoClient
+import math
+import random
 
 file_path = '/work/neo/python/kibwa_project/csvfile/충청북도_전기자동차_보급_현황.csv'
 
@@ -14,31 +15,39 @@ df_melted = df.melt(id_vars='연도', var_name='region', value_name='count')
 df_pivot = df_melted.pivot(index='region', columns='연도', values='count')
 df_pivot = df_pivot.apply(pd.to_numeric, errors='coerce').fillna(0)
 
-df_pivot[2023] = df_pivot[2022] + (df_pivot[2022] - df_pivot[2021])
-df_pivot[2024] = df_pivot[2023] + (df_pivot[2023] - df_pivot[2022])
+target_years = list(range(2022, 2041))
 
-df_final = df_pivot[[2022, 2023, 2024]].reset_index()
+def bounded_log_growth(x, max_val=10000, b=0.15, noise_level=0.03):
+    base = max_val * math.log(b * x + 1) / math.log(b * (len(target_years) - 1) + 1)
+    noise = random.uniform(-noise_level, noise_level) * base
+    return base + noise
 
-client = MongoClient('mongodb://192.168.1.44:27017/')
-db = client['electric_car']
-collection = db['chungbuk_ev_forecast']
+predicted_rows = []
 
-sido_name = "충청북도" 
+for region, row in df_pivot.iterrows():
+    available_years = [year for year in row.dropna().index.tolist() if year >= 2016]
+    if len(available_years) < 2:
+        continue
 
-for _, row in df_final.iterrows():
-    full_region = f"{sido_name} {row['region']}".strip()
-    doc = {
-        'region': full_region,
-        'yearly_data': {
-            '2022': int(row[2022]),
-            '2023': int(row[2023]),
-            '2024': int(row[2024])
-        }
-    }
-    collection.update_one(
-        {'region': full_region},
-        {'$set': doc},
-        upsert=True
-    )
+    values = row[available_years].values
+    last_val = values[-1]
+    max_val = last_val * 1.3  
 
-print("충청북도 전기차 2022~2024 예측 데이터를 시도+시군구 형식으로 MongoDB에 저장 완료했습니다.")
+    forecast = {}
+    for i, year in enumerate(target_years):
+        if year in row:
+            forecast[year] = row[year]
+        else:
+            forecast[year] = bounded_log_growth(i, max_val=max_val)
+
+    predicted_rows.append({
+        'sido': '충청북도',
+        'sigungu': region.strip(),
+        **{str(year): round(forecast[year], 2) for year in target_years}
+    })
+
+df_result = pd.DataFrame(predicted_rows)
+output_path = '/work/neo/python/kibwa_project/csvfile/chungbuk_2040.csv'
+df_result.to_csv(output_path, index=False, encoding='utf-8-sig')
+
+print(f"저장 완료: {output_path}")

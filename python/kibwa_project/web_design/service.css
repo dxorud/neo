@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard&display=swap');
+
+body {
+  font-family: 'Pretendard', sans-serif;
+  background: #F6FFF9;
+  color: #333;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 85, 51, 0.1);
+}
+
+.title {
+  font-size: 2rem;
+  color: #2E7D32;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #4F4F4F;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #BDBDBD;
+  font-size: 1rem;
+  background-color: #f8fff6;
+}
+
+.submit-btn {
+  background: #6FCF97;
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #5BBE84;
+}
+
+.result-box {
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #2E7D32;
+  background: #E9F9EF;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px dashed #A5D6A7;
+}
+
+.placeholder-text {
+  color: #999;
+}
