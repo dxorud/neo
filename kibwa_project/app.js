@@ -3,7 +3,7 @@
 
 const express = require('express');
 const path = require('path');
-const axios = require('axios'); // ✅ axios 추가
+const axios = require('axios');
 
 const app = express();
 const PORT = 8000;
@@ -16,16 +16,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 3. 뷰 엔진 설정 (HTML 렌더링)
-app.set('public', path.join(__dirname, 'public'));
+app.set('views', path.join(__dirname, 'views')); 
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-// 4. API 프록시 (FastAPI -> /api/forecast)
+// 4. API 프록시 - FastAPI 예측 API 연동 (직접 호출용)
 app.get('/api/forecast', async (req, res) => {
   const { sido, sigungu } = req.query;
 
   try {
-    const response = await axios.get('http://localhost:3000/forecast', {
+    const response = await axios.get('http://192.168.1.44:3000/r_forecast', {
       params: { sido, sigungu }
     });
     res.json(response.data);
@@ -35,8 +35,8 @@ app.get('/api/forecast', async (req, res) => {
   }
 });
 
-// 5. 기타 라우터 (선택적으로 mainRouter 연결)
-const mainRouter = require('./node-server/mainController');
+// 5. 메인 라우터 연결 (서비스 화면 및 기타 라우트)
+const mainRouter = require('./controllers/mainController');
 app.use('/', mainRouter);
 
 // 6. 서버 실행
