@@ -20,21 +20,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-// 4. API 프록시 - FastAPI 예측 API 연동 (직접 호출용)
-app.get('/api/forecast', async (req, res) => {
-  const { sido, sigungu } = req.query;
-
-  try {
-    const response = await axios.get('http://192.168.1.44:3000/r_forecast', {
-      params: { sido, sigungu }
-    });
-    res.json(response.data);
-  } catch (err) {
-    console.error('[FastAPI 호출 오류]:', err.message);
-    res.status(500).json({ result: false, message: 'FastAPI 서버 오류' });
-  }
-});
-
 // 5. 메인 라우터 연결 (서비스 화면 및 기타 라우트)
 const mainRouter = require('./controllers/mainController');
 app.use('/', mainRouter);
