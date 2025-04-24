@@ -1,0 +1,109 @@
+/* 기본 설정 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Pretendard', sans-serif;
+  background-color: #fff;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* 공통 컨테이너 */
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 헤더 */
+header {
+  background: none;
+  padding: 20px 0;
+}
+.container.nav {
+  background-color: #78dba3;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 히어로 */
+.hero .container {
+  background: linear-gradient(180deg, #78dba3 0%, #a1e9c5 100%);
+  padding: 80px 24px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 40px auto;
+}
+.hero h2 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.hero p {
+  color: #f0fafa;
+  font-size: 1.125rem;
+}
+
+/* 차트 섹션 */
+.chart-section {
+  background: #fafafa;
+  padding: 60px 0;
+}
+.chart-section .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+/* 차트 박스 */
+.chart-box {
+  width: 48%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+}
+.chart-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+.chart-box .description {
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  color: #777;
+}
+.chart-box canvas {
+  max-width: 100%;
+  height: 200px;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .chart-box {
+    width: 100%;
+  }
+  .chart-box canvas {
+    height: 180px;
+  }
+}

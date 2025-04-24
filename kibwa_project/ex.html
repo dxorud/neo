@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EV | 데이터 분석</title>
+  <link rel="stylesheet" href="ex.css" />
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <h1 class="logo">
+        <a href="/" style="text-decoration: none; color: inherit;">⚡EV</a>
+      </h1>
+      <nav>
+        <a href="/service">구매 예측</a>
+        <a href="/map">충전소 지도</a>
+        <a href="/analysis">데이터 분석</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h2>전기차와 충전소의<br/>데이터를 분석해드립니다</h2>
+      <p>다양한 그래프와 차트로 한눈에 살펴보세요</p>
+    </div>
+  </section>
+
+  <!-- 막대 그래프 -->
+  <section class="chart-section bar-centered">
+    <div class="chart-box">
+      <canvas id="barChart"></canvas>
+    </div>
+  </section>
+
+  <!-- 파이 그래프 -->
+  <section class="chart-section pie-layout">
+    <div class="chart-box small">
+      <canvas id="pieChart"></canvas>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="analysis.js"></script>
+</body>
+</html>

@@ -1,45 +1,140 @@
 @import url('https://fonts.googleapis.com/css2?family=Pretendard&display=swap');
 
+/* 1. Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    margin: 0;
-    font-family: 'Pretendard', sans-serif;
-    background: #F6FFF9;
-    color: #333;
+  background-color: #fff;
+  color: #222;
+  font-family: 'Pretendard', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-.wrapper {
-    display: flex;
-    height: 100vh;
+/* 2. .container: 중앙 정렬 */
+.container {
+  width: 70%;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
-.map-container {
-    width: 65%;
+/* 3. Header & Navigation */
+header {
+  background: none;
+  padding: 16px 0;
 }
 
-#map {
-    width: 100%;
-    height: 100%;
+header .container.nav {
+  background-color: #78dba3;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px auto;
 }
 
-.info-panel {
-    width: 35%;
-    background: #E9F9EF;
-    padding: 30px;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.05);
-    overflow-y: auto;
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
 }
 
-.info-panel h2 {
-    color: #2E7D32;
-    margin-bottom: 20px;
+header nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: opacity 0.2s;
 }
 
-#station-info h3 {
-    margin: 10px 0 6px;
-    color: #333;
+header nav a:hover {
+  opacity: 0.8;
 }
 
-#station-info p {
-    margin: 4px 0;
-    color: #555;
+/* 4. Hero Section */
+.hero {
+  background: none;
+  padding: 0;
+}
+
+.hero .container {
+  background: linear-gradient(180deg, #78dba3 0%, #a1e9c5 100%);
+  padding: 80px 24px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 40px auto;
+}
+
+.hero .container h2 {
+  font-size: 2.75rem;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.hero .container p {
+  font-size: 1.125rem;
+  color: #f0fafa;
+}
+
+/* Map + Form */
+.map-section .container {
+  background:#fff; padding:24px; border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+.map-layout { display:flex; gap:24px; }
+.map-container { flex:2; }
+#map { width:100%; height:680px; border-radius:8px; }
+
+/* Sidebar */
+.sidebar { flex:1; display:flex; flex-direction:column; gap:16px; }
+.station-form { display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+.station-form input, .station-form button {
+  padding:12px; font-size:1rem; border:1px solid #ddd; border-radius:8px;
+}
+.station-form button {
+  background:#2e7d32; color:#fff; border:none; cursor:pointer;
+  font-weight:bold; transition:background .3s;
+}
+.station-form button:hover { background:#1b5e20; }
+
+/* 주소 검색 */
+.address-row { display:flex; gap:10px; }
+.address-row input { flex:1; padding:10px; font-size:1rem; border:1px solid #ccc; border-radius:8px; }
+.address-row button {
+  padding:10px 16px; background:#2e7d32; color:#fff; border:none; border-radius:8px;
+  cursor:pointer; transition:background .3s;
+}
+.address-row button:hover { background:#1b5e20; }
+
+/* 현재 위치 */
+#locateBtn {
+  background:#2e7d32; color:#fff; padding:12px; border:none; border-radius:8px;
+  cursor:pointer; font-weight:bold;
+}
+#locateBtn:hover { background:#1b5e20; }
+
+/* 충전소 리스트 고정 높이 + 스크롤 */
+.station-list {
+  margin-top:12px; padding:12px; border:1px dashed #ccc;
+  border-radius:8px; background:#f9fff9;
+  height:300px;          /* ← 고정 높이 */
+  overflow-y:auto;       /* ← 스크롤 */
+}
+.station-list p { color:#555; }
+
+/* Responsive */
+@media (max-width:992px) {
+  .map-layout { flex-direction:column; }
+  #map { height:400px; }
+}
+@media (max-width:576px) {
+  .container { width:90%; }
+  .hero h2 { font-size:1.75rem; }
+  #map { height:250px; }
 }

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EV | 전기차 데이터 플랫폼</title>
-  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="main.css" />
 </head>
 <body>
   <header>
     <div class="container nav">
-      <h1 class="logo">⚡EV</h1>
+      <h1 class="logo">
+        <a href="/" style="text-decoration: none; color: inherit;">⚡EV</a>
+      </h1>
       <nav>
         <a href="/service">구매 예측</a>
         <a href="/map">충전소 지도</a>
@@ -22,23 +24,29 @@
     <div class="container">
       <h2>당신의 전기차 여정을<br>데이터로 안내합니다</h2>
       <p>지역별 구매 적합 시기부터 충전소 위치, 분석까지</p>
-      <a href="/service" class="cta">서비스 시작하기</a>
     </div>
   </section>
 
   <section class="features container">
-    <div class="card">
-      <h3>구매 예측</h3>
-      <p>내가 사는 지역은 언제쯤 전기차를 사는게 좋을까?</p>
-    </div>
-    <div class="card">
-      <h3>충전소 지도</h3>
-      <p>가장 가까운 충전소는 <br>어디로 가야할까?</p>
-    </div>
-    <div class="card">
-      <h3>데이터 분석</h3>
-      <p>전기차와 충전소의 데이터는 어떻게 이루어졌을까?</p>
-    </div>
+    <a href="/service" class="card-link">
+      <div class="card">
+        <h3>구매 예측</h3>
+        <p>내가 사는 지역은 언제쯤 전기차를 사는게 좋을까?</p>
+      </div>
+    </a>
+    <a href="/map" class="card-link">
+      <div class="card">
+        <h3>충전소 지도</h3>
+        <p>가장 가까운 충전소는 어디로 가야할까?</p>
+      </div>
+    </a>
+    <a href="/analysis" class="card-link">
+      <div class="card">
+        <h3>데이터 분석</h3>
+        <p>전기차와 충전소의 데이터는 어떻게 이루어졌을까?</p>
+      </div>
+    </a>
   </section>
+  
 </body>
 </html>

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware  # ✅ CORS 미들웨어 임포트
 from pymongo import MongoClient
 from typing import Optional
 import json
@@ -6,6 +7,18 @@ import os
 import uvicorn
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://192.168.1.44:8000",   # 프론트엔드 주소
+        "http://localhost:8000",      # 개발 중 로컬 주소
+        
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
 
 # MongoDB 연결
 client = MongoClient("mongodb://192.168.1.44:27017/")

@@ -1,63 +1,160 @@
 @import url('https://fonts.googleapis.com/css2?family=Pretendard&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 body {
+  background-color: #fff;
+  color: #222;
   font-family: 'Pretendard', sans-serif;
-  background: #f0f8f3;
-  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
+/*────────────────────────────────────────────────
+  2. .container: 화면 너비의 70% 사용 → 좌우 약 15% 여백
+────────────────────────────────────────────────*/
 .container {
-  max-width: 720px;
+  width: 70%;
   margin: 0 auto;
-  padding: 40px 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 0 16px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2e7d32;
+/*────────────────────────────────────────────────
+  3. Header & Navigation (메인과 동일)
+────────────────────────────────────────────────*/
+header {
+  background: none;
+  padding: 16px 0;
 }
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-input, button {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
+header .container.nav {
+  background-color: #78dba3;
+  padding: 16px;
   border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px auto;
+}
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+header nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+header nav a:hover {
+  opacity: 0.8;
 }
 
-button {
+/*────────────────────────────────────────────────
+  4. Hero Section (메인과 동일)
+────────────────────────────────────────────────*/
+.hero {
+  background: none;
+  padding: 0;
+}
+.hero .container {
+  background: linear-gradient(180deg, #78dba3 0%, #a1e9c5 100%);
+  padding: 80px 24px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 40px auto;
+}
+.hero .container h2 {
+  font-size: 2.75rem;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.hero .container p {
+  font-size: 1.125rem;
+  color: #f0fafa;
+}
+
+/* Form Section */
+.form-section {
+  background: #ffffff;
+  padding: 50px 20px;
+}
+
+#predictForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+#predictForm input {
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  width: 200px;
+  transition: border-color 0.3s;
+}
+
+#predictForm input:focus {
+  outline: none;
+  border-color: #2e7d32;
+}
+
+#predictForm button {
+  padding: 12px 24px;
   background-color: #2e7d32;
   color: white;
-  cursor: pointer;
+  border: none;
+  border-radius: 10px;
   font-weight: bold;
-  transition: 0.3s ease;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+#predictForm button:hover {
   background-color: #1b5e20;
 }
 
+/* Result Box */
 .result-box {
-  margin-top: 30px;
-  padding: 20px;
   border: 1px dashed #ccc;
-  border-radius: 8px;
-  background-color: #f9fff9;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f1f8f2;
+  color: #444;
+  font-size: 1rem;
+  text-align: center;
 }
 
-.result-box p {
-  margin: 8px 0;
+.forecast-list {
+  margin-top: 24px;
+  text-align: center;
 }
 
-.result-box .highlight {
-  color: #2e7d32;
+.forecast-list h4 {
+  margin-bottom: 8px;
+  color: #333;
   font-weight: bold;
+}
+
+.forecast-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.forecast-list li {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 4px 0;
+  font-size: 1.05rem;
+  color: #222;
 }

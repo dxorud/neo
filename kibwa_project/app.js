@@ -20,11 +20,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-// 5. 메인 라우터 연결 (서비스 화면 및 기타 라우트)
+// 4. 메인 라우터 연결 (서비스 화면 및 기타 라우트)
 const mainRouter = require('./controllers/mainController');
 app.use('/', mainRouter);
 
-// 6. 서버 실행
+// 5. 서버 실행
 app.listen(PORT, () => {
   console.log(`🚀 Ollama Web Interface server running at http://localhost:${PORT}`);
 });
