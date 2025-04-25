@@ -14,16 +14,15 @@ body {
   overflow-x: hidden;
 }
 
-/* 2. .container: 화면 너비의 70% 사용 → 좌우 약 15% 여백 */
+/* 2. Container */
 .container {
   width: 70%;
-  margin: 0 auto;      /* 좌우 자동 마진으로 중앙 정렬 */
+  margin: 0 auto;
   padding: 0 16px;
 }
 
-/* 3. Header & Navigation (메인과 완전 동일) */
+/* 3. Header */
 header {
-  background: none;
   padding: 16px 0;
 }
 header .container.nav {
@@ -51,11 +50,7 @@ header nav a:hover {
   opacity: 0.8;
 }
 
-/* 4. Hero Section (메인과 완전 동일) */
-.hero {
-  background: none;
-  padding: 0;
-}
+/* 4. Hero */
 .hero .container {
   background: linear-gradient(180deg, #78dba3 0%, #a1e9c5 100%);
   padding: 80px 24px;
@@ -74,80 +69,101 @@ header nav a:hover {
   color: #f0fafa;
 }
 
-/* 5. Analysis Section: 그래프 카드 레이아웃 */
-.analysis-section {
-  background: none;
-  padding: 60px 0;     /* 메인 features 섹션과 동일 */
+/* 5. Chart Section */
+.chart-section {
+  padding: 40px 0;
 }
-.analysis-section .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* 5-1. 그래프 카드 스타일 (features .card와 동일 규격) */
-.graph-card {
+.chart-box {
   background-color: #fff;
-  padding: 24px;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
   text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.graph-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-.graph-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 12px;
-}
-.graph-card p {
-  font-size: 1rem;
-  color: #222;
-  line-height: 1.5;
 }
 
-/* 6. Responsive Adjustments (메인과 동일) */
+/* 5-1. Chart Title */
+.chart-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2e7d32;
+}
+
+/* 5-2. Bar Charts: +20% 크기 증가 */
+canvas.bar-chart {
+  max-width: 576px;         /* 기존 480px → 576px (+96px) */
+  height: 336px !important; /* 기존 280px → 336px (+56px) */
+  margin: 0 auto;
+  display: block;
+}
+
+/* 5-3. Pie Charts Container: 한 줄 고정, 스크롤 */
+.pie-chart-box {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 30px auto;
+  flex-wrap: nowrap;        /* 한 줄로 고정 */
+  overflow-x: auto;         /* 넘칠 때 가로 스크롤 */
+}
+
+/* 5-3a. Pie Chart Box 크기 통일 (+20%) */
+.pie-chart-box .chart-box {
+  flex: 0 0 432px;          /* 기존 360px → 432px (+72px) */
+  padding: 16px;
+  margin: 0;
+}
+
+/* 5-3b. Pie Charts 공통 캔버스 크기 (+20%) */
+#pieChart,
+#pieChartBottom,
+#stationTopPie,
+#speedPie {
+  width: 360px !important;  /* 기존 300px → 360px (+60px) */
+  height: 360px !important; /* 기존 300px → 360px (+60px) */
+}
+
+/* 6. Responsive */
 @media (max-width: 992px) {
-  header .container.nav {
-    flex-direction: column;
-    row-gap: 12px;
+  /* Bar 차트 높이 약간 축소 */
+  canvas.bar-chart {
+    max-width: 100%;
+    height: 320px !important;
   }
-  header nav a {
-    margin-left: 0;
+  /* Pie 차트 컨테이너 wrap, 스크롤 제거 */
+  .pie-chart-box {
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    gap: 8px;
   }
-  .analysis-section .container {
-    grid-template-columns: 1fr;
+  .pie-chart-box .chart-box {
+    flex: 0 0 45%;
   }
-  .hero .container h2 {
-    font-size: 2rem;
+  /* Pie 캔버스 자동 크기 */
+  #pieChart,
+  #pieChartBottom {
+    width: 100% !important;
+    height: auto !important;
   }
 }
+
 @media (max-width: 576px) {
-  .hero .container {
-    padding: 60px 16px;
-  }
-  .hero .container h2 {
-    font-size: 1.75rem;
-  }
   .container {
     width: 90%;
     padding: 0 12px;
   }
-}
-
-/* 7. Pie 차트 섹션 추가 스타일 */
-/*  - 왼쪽 정렬, 캔버스 너비 절반 */
-.pie-chart-section .container {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.pie-chart-section canvas {
-  width: 50% !important;
-  max-width: 400px;
-  height: auto !important;
+  .pie-chart-box {
+    flex-direction: column;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  .pie-chart-box .chart-box {
+    flex: 0 0 90%;
+  }
+  #pieChart,
+  #pieChartBottom {
+    width: 100% !important;
+    height: auto !important;
+  }
 }

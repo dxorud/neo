@@ -4,17 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>EV | 충전소 지도</title>
+  <!-- 외부 CSS -->
   <link rel="stylesheet" href="map.css" />
-
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4fa32af93e1e2dfb043af164aee43e74&libraries=services"></script>
-
-  <script src="map.js" defer></script>
 </head>
 <body>
   <header>
     <div class="container nav">
       <h1 class="logo">
-        <a href="/" style="text-decoration: none; color: inherit;">⚡EV</a>
+        <a href="/">⚡EV</a>
       </h1>
       <nav>
         <a href="/service">구매 예측</a>
@@ -23,39 +20,43 @@
       </nav>
     </div>
   </header>
+
   <section class="hero">
     <div class="container">
       <h2>전기자동차 충전소 탐색</h2>
       <p>출발지·도착지와 남은 주행거리를 입력하세요</p>
     </div>
   </section>
+
   <section class="map-section">
-    <div class="container">
-      <div class="map-layout">
-        <div class="map-container">
-          <div id="map"></div>
-        </div>
-        <aside class="sidebar">
-          <button id="locateBtn">📍 현재 위치에서 찾기</button>
-
-          <div class="address-row">
-            <input type="text" id="address" placeholder="주소 입력 (예: 서울 강남구)" />
-            <button id="addressSearchBtn">주소로 찾기</button>
-          </div>
-
-          <form id="stationForm" class="station-form">
-            <input type="text"   id="start" placeholder="출발지 입력" required />
-            <input type="text"   id="end"   placeholder="도착지 입력" required />
-            <input type="number" id="range" placeholder="남은 주행거리 (km)" required />
-            <button type="submit">충전소 탐색</button>
-          </form>
-
-          <div id="stationList" class="station-list">
-            <p>🔍 검색 결과가 이곳에 표시됩니다.</p>
-          </div>
-        </aside>
+    <div class="container map-layout">
+      <div class="map-container">
+        <div id="map"></div>
       </div>
+      <aside class="sidebar">
+        <button id="locateBtn">📍 현재 위치에서 찾기</button>
+        <div class="address-row">
+          <input id="address" placeholder="주소 입력 (예: 서울 강남구)" />
+          <button id="addressSearchBtn">주소로 찾기</button>
+        </div>
+        <form id="stationForm" class="station-form">
+          <input id="start" placeholder="출발지 입력" required />
+          <input id="end" placeholder="도착지 입력" required />
+          <input id="range" type="number" placeholder="남은 주행거리 (km)" required />
+          <button type="submit">충전소 탐색</button>
+        </form>
+        <div id="stationList" class="station-list">
+          <p>🔍 검색 결과가 이곳에 표시됩니다.</p>
+        </div>
+      </aside>
     </div>
   </section>
+
+  <!-- 카카오 지도 SDK -->
+  <script
+    src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4fa32af93e1e2dfb043af164aee43e74&libraries=services&callback=initMap">
+  </script>
+  <!-- 맵 초기화 함수가 정의된 map.js -->
+  <script src="map.js"></script>
 </body>
 </html>

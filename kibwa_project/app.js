@@ -6,7 +6,7 @@ const path = require('path');
 const axios = require('axios');
 
 const app = express();
-const PORT = 8000;
+const PORT = 80;
 
 // 1. 미들웨어
 app.use(express.json());
