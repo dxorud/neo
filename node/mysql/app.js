@@ -14,13 +14,13 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) {
         console.error('Database is connectied~!!\n\n');
-    }  else {
+    } else {
         console.error('Error connnecting Database~!!\n\n');
     }
 });
 
 app.get('/', function (req, res) {
-    connecttion.query('select * from st_info', function (err, rows, fields) {
+    connection.query('select * from st_info', function (err, rows, fields) {
         connection.end();
         if (err) {
             res.send(rews);
