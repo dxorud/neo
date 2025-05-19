@@ -11,7 +11,11 @@ WORKDIR /root
 COPY .bashrc .
 COPY .exrc .
 COPY hello.js .
+
+# Step 5 : Install express
+RUN npm init -y
 RUN npm install express
+RUN npm install -g nodemon
 
 # Step 5 : Open port
 EXPOSE 8000
