@@ -1,5 +1,5 @@
 # Step 1 : Base Images
-FROM node:16.20.2
+FROM node:18.16.0
 
 # Step 2 : Package install
 RUN apt -y update && apt -y upgrade; apt -y install vim git net-tools
@@ -8,11 +8,11 @@ RUN apt -y update && apt -y upgrade; apt -y install vim git net-tools
 WORKDIR /root
 
 # Step 4 : Config file copy
-COPY remoteapi.tar.gz .
+COPY weather.tar.gz .
 
 # Step 5 : Install express
-RUN tar xzvf remoteapi.tar.gz
-WORKDIR '/root/remoteapi'
+RUN tar xzvf weather.tar.gz
+WORKDIR '/root/weather'
 RUN npm install
 RUN npm install -g nodemon
 
