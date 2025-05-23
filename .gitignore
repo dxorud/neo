@@ -46,3 +46,5 @@ docker/mongodb/mongo*
 react/**/.git
 nestjs
 
+ai-1/1_openai/4_fine_tuning/archive
+
