@@ -27,11 +27,11 @@ node/**/.serverless */
 ## python
 .idea
 secret.json
-python/**/.venv
-python /**/__pycache__/
+**/.venv
+**/__pycache__/
 **/secret.json
 
-## python
+## mongodb
 mongodb/backup
 
 ##oracle
@@ -45,3 +45,4 @@ docker/mongodb/mongo*
 
 react/**/.git
 nestjs
+
