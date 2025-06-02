@@ -13,3 +13,5 @@ uploaded_file = st.file_uploader('mp3파일은 선택하세요.', type='mp3')
 if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     st.write(bytes_data[:100])
+
+st.markdown('## 이건 제목이야 ,,, :x: :chicken:')
