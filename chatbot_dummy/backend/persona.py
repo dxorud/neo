@@ -1,29 +1,35 @@
-# backend/persona.py (최종 통합버전)
-
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from pathlib import Path
-import random, json
+import random, json, os, httpx
 from datetime import datetime, timedelta
 from uuid import uuid4
-import lmstudio as lms
 import concurrent.futures
 import uvicorn
+import threading
+from dotenv import load_dotenv
+from file_watcher import start_watching
+
+# ✅ .env 로드
+load_dotenv(dotenv_path=Path(__file__).resolve().parents[1] / ".env")
 
 app = FastAPI()
 
-# 📌 폴더 경로 (backend 폴더 기준으로 안전하게)
 BASE_DIR = Path(__file__).parent.parent
 OUTPUT_FOLDER = BASE_DIR / "dummy_data"
 OUTPUT_FOLDER.mkdir(exist_ok=True)
 
-# 모델 초기화
-model = lms.llm("ws://host.docker.internal:1234/llm")
+# ✅ LM Studio URL 환경변수
+LMSTUDIO_URL = os.getenv("LMSTUDIO_URL")
+print("📡 연결 시도 주소:", LMSTUDIO_URL)
+
 TASKS = {}
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
 
-# 입력 데이터 스키마
+# ✅ S3 감시 스레드 실행
+threading.Thread(target=start_watching, daemon=True).start()
+
 class InputData(BaseModel):
     name: str
     age: int
@@ -45,7 +51,6 @@ class InputData(BaseModel):
     period_start: str
     period_end: str
 
-# 직업별 소비 카테고리
 category_by_job = {
     '학생': ['카페', '편의점', '게임', '온라인쇼핑', '배달음식'],
     '직장인': ['카페', '점심식사', '업무비품', '패션', '스트레스 쇼핑'],
@@ -54,7 +59,6 @@ category_by_job = {
     '자영업자': ['사업자재', '식사', '업무비품', '거래처선물', '출장비']
 }
 
-# 카테고리별 금액범위
 price_table = {
     '카페': (4000, 7000), '편의점': (3000, 15000), '게임': (10000, 50000),
     '마트장보기': (30000, 150000), '식료품': (10000, 50000),
@@ -64,16 +68,14 @@ price_table = {
     '배달음식': (10000, 30000), '사업자재': (50000, 1000000), '출장비': (50000, 300000)
 }
 
-# 금액 생성 (100원 단위로 깔끔)
 def generate_realistic_price(price_range):
     base_price = random.randint(*price_range)
     noise = random.randint(-1000, 1000)
     final_price = max(1000, base_price + noise)
     last_digit = random.choice([0, 100, 500])
-    final_price = int(final_price / 1000) * 1000 + last_digit
-    return final_price
+    return int(final_price / 1000) * 1000 + last_digit
 
-# 상세 내역 (모델 호출)
+# ✅ HTTP API 방식으로 소비내역 요청
 def generate_spending_detail(category, price, current_date):
     system_prompt = """
     너는 소비 내역 생성 전문가야. 항상 현실적이고 한국인의 소비 습관을 고려해서 1문장으로 작성해.
@@ -81,12 +83,24 @@ def generate_spending_detail(category, price, current_date):
     너무 길게 쓰지 말고 간결하게 작성하고, 항상 한국어로 작성해.
     """
     user_prompt = f"카테고리: {category}, 소비 금액: {price}원, 날짜: {current_date.strftime('%Y-%m-%d')}. 현실적인 상세 소비내역 한 문장 작성해줘."
-    chat = lms.Chat(system_prompt)
-    chat.add_user_message(user_prompt)
-    prediction = model.respond(chat)
-    return prediction.content.strip()
 
-# 더미데이터 생성
+    payload = {
+        "model": "gemma-3-4b",  # LM Studio에서 설정한 모델 이름
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        "temperature": 0.7
+    }
+
+    try:
+        response = httpx.post(LMSTUDIO_URL, json=payload, timeout=30)
+        response.raise_for_status()
+        return response.json()['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        print(f"[❌ LMStudio 요청 실패]: {e}")
+        return "소비 내역 생성 실패"
+
 def generate_dummy_data(input_data: InputData, task_id: str):
     try:
         result = []
@@ -130,8 +144,9 @@ def generate_dummy_data(input_data: InputData, task_id: str):
 
             result.append({"날짜": current_date.strftime("%Y-%m-%d"), "소비목록": daily_logs})
 
-        filename = f"{input_data.gender}_{input_data.age}_{input_data.job}_{task_id}.json"
+        filename = f"{input_data.name}_{start.strftime('%Y%m%d')}~{end.strftime('%Y%m%d')}.json"
         filepath = OUTPUT_FOLDER / filename
+
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
 
@@ -139,8 +154,6 @@ def generate_dummy_data(input_data: InputData, task_id: str):
 
     except Exception as e:
         TASKS[task_id] = {"status": "failed", "error": str(e)}
-
-# API 엔드포인트
 
 @app.post("/generate")
 def start_generation(data: InputData, background_tasks: BackgroundTasks):
@@ -158,6 +171,5 @@ def download(filename: str):
     filepath = OUTPUT_FOLDER / filename
     return FileResponse(filepath, media_type='application/json', filename=filename)
 
-# 개발 시 편리하게 실행
 if __name__ == "__main__":
     uvicorn.run("persona:app", host="0.0.0.0", port=3030, reload=True)

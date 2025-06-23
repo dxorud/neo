@@ -9,6 +9,9 @@ services:
       - "3030:3030"
     volumes:
       - ./dummy_data:/app/dummy_data
+      - ./backend:/app
+    env_file:
+      - .env
 
   frontend:
     build:
@@ -16,3 +19,5 @@ services:
       dockerfile: frontend/Dockerfile
     ports:
       - "8501:8501"
+    volumes:
+      - ./frontend:/app
